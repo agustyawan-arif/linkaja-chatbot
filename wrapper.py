@@ -3,10 +3,6 @@ import sys
 import argparse
 from dotenv import load_dotenv
 
-path_this_file = os.path.dirname(os.path.abspath(__file__))
-pat_project_root = os.path.join(path_this_file, "..")
-sys.path.append(pat_project_root)
-
 from src.qa_processor import QAProcessor
 from src.collection_management import CollectionManagement
 
