@@ -10,7 +10,7 @@ sys.path.append(pat_project_root)
 
 class CollectionManagement:
     def __init__(self):
-        self.chroma_client = chromadb.PersistentClient(path="knowledges")
+        self.chroma_client = chromadb.PersistentClient(path=f"{pat_project_root}/knowledges")
         self.documents = []
         self.metadatas = []
         self.ids = []
@@ -42,6 +42,6 @@ class CollectionManagement:
         )
 
     def load_chroma_collection(self, name):
-        chroma_client = chromadb.PersistentClient(path="knowledges")
+        chroma_client = chromadb.PersistentClient(path=f"{pat_project_root}/knowledges")
         db = self.chroma_client.get_collection(name=name, embedding_function=GeminiEmbeddingFunction())
         return db
