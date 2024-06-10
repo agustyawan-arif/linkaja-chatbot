@@ -9,16 +9,13 @@ pat_project_root = os.path.join(path_this_file, "..")
 sys.path.append(pat_project_root)
 
 from src.qa_processor import QAProcessor
-from src.collection_management import CollectionManagement
 
 class LinkAjaChatbot:
     def __init__(self):
         load_dotenv()
         self.question_temp = ""
         self.answer_temp = ""
-        self.coll_man = CollectionManagement()
-        self.db = self.coll_man.load_chroma_collection("linkaja")
-        self.qa_proc = QAProcessor(self.db)
+        self.qa_proc = QAProcessor()
         self.initialize_ui()
         self.load_chat_history()
     
@@ -45,7 +42,7 @@ class LinkAjaChatbot:
         if question:
             st.session_state.messages.append({"role": "user", "content": question})
             st.chat_message("user").write(question)
-            content, _ = self.qa_proc.generate_final_answer(question)
+            content = self.qa_proc.invoke(question)
             msg = {'role': 'assistant', 'content': content}
             st.session_state.messages.append(msg)
             st.chat_message("assistant").write(msg['content'])
