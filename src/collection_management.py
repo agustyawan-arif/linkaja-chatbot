@@ -18,16 +18,7 @@ class CollectionManagement:
     def read_data(self, data_path):
         datas = list(srsly.read_json(data_path))
         for i, data in enumerate(datas):
-            self.documents.append(data["question"])
-            topik = data["topik"] if "topic" in data.keys() else ""
-            level = data["level"] if "level" in data.keys() else ""
-            self.metadatas.append(
-                {
-                    "answer": data["answer"],
-                    "topik": topik,
-                    "level": level
-                }
-            )
+            self.documents.append(data["question"] + "\n" + data["answer"])
             self.ids.append(str(i))
 
     def create_collection(self, data_path, collection_name):
@@ -37,11 +28,9 @@ class CollectionManagement:
     def insert_document(self):
         self.collection.add(
             documents = self.documents,
-            metadatas = self.metadatas,
             ids = self.ids
         )
 
     def load_chroma_collection(self, name):
-        chroma_client = chromadb.PersistentClient(path=f"{pat_project_root}/knowledges")
         db = self.chroma_client.get_collection(name=name, embedding_function=GeminiEmbeddingFunction())
         return db
